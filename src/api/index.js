@@ -1,0 +1,31 @@
+import axios from "axios";
+
+const api =  axios.create({
+    baseURL: "http://localhost:3000/api",
+});
+
+export const insertTransaction = payload => api.post("/transaction", payload);
+export const getAllTransactions = id => api.get("./transactions/" + id);
+export const updateTransactionById = (id, payload) => api.put("/transaction/" + id, payload);
+export const deleteTransactionById = id => api.delete("transaction/" + id);
+export const getTransactionById = id => api.get("/transaction/$id");
+export const insertAccount = payload => api.post("/account", payload);
+export const getAllAccounts = () => api.get("./accounts");
+export const updateAccountById = (id, payload) => api.put("/account/" + id, payload);
+export const deleteAccountById = id => api.delete("account/$id");
+export const getAccountById = id => api.get("/account/$id");
+
+const apis = {
+    insertTransaction,
+    getAllTransactions,
+    updateTransactionById,
+    deleteTransactionById,
+    getTransactionById,
+    insertAccount,
+    getAllAccounts,
+    updateAccountById,
+    deleteAccountById,
+    getAccountById
+};
+
+export default apis;

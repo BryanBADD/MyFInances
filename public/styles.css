@@ -1,0 +1,282 @@
+
+body {
+  background-color: #253885;
+  columns: #fff;
+}
+
+a {
+  color: #000;
+}
+
+input[type="text"] {
+  font-size: .90rem;
+  width: 100%;
+}
+
+.container {
+  margin: 0;
+}
+
+.input-column {
+  padding: 0;
+}
+
+.money-text-box {
+  text-align: right;
+}
+
+.right-align {
+  text-align: right;
+}
+
+.row {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.topBorder {
+  border-top: solid 1px;
+  border-color: #d4d5d9;
+}
+
+/* Heading */
+.header {
+  color: white;
+  padding: 20px 10px;
+  vertical-align: bottom;
+}
+
+/* Navigation */
+.navigation {
+  font-size: .75rem;
+  color: #dce3fa;
+  font-weight: bold;
+}
+
+.navigation:hover {
+  color: #fff;
+}
+
+.vertical-center {
+ padding-right: 0;
+ padding-left: 0;
+ margin: auto;
+}
+
+/* Transactions */
+
+.accountName {
+  font-size: 1.3rem;
+  color: #000;
+  background-color: #97a9f0;
+  padding: 0;
+  border-bottom: solid 1px;
+  border-color: #000;
+}
+
+.btn-mini {
+  padding: 0;
+}
+
+.btn-transaction {
+  color:  #97a9f0;
+  border-color:  #97a9f0;
+  margin-bottom: 3px;
+}
+
+.btn-transaction:hover {
+background-color: #d3d3d3;
+border-color: #d3d3d3;
+}
+
+.column-heading {
+  font-size: .90rem;
+  font-weight: bold;
+  padding: 0;
+  background-color: #97a9f0;
+}
+
+.depositMoney {
+  background-color: green;
+}
+
+.heading-row {
+  padding: 0 10px;
+  background-color: #97a9f0;
+  border-bottom: solid 1px;
+  border-color: #000;
+}
+
+.negative-transaction {
+  color: red;
+  padding: 0;
+}
+
+.newTransactionInput {
+  border: none;
+  width: 100%;
+  font-size: .90rem;
+}
+
+.new-transaction-row {
+  padding: 0;
+}
+
+.select-css {
+	font-size: .90rem;
+  width: 100%;
+  color: #000;
+	max-width: 100%;
+	box-sizing: border-box;
+	margin: 0;
+  border: none;
+  background-color: #fff;
+	background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23007CB2%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E'),
+	  linear-gradient(to bottom, #fff 0%,#fff 100%);
+	background-repeat: no-repeat, repeat;
+	background-position: right .7em top 50%, 0 0;
+	background-size: .65em auto, 100%;
+	-moz-appearance: none;
+	-webkit-appearance: none;
+	appearance: none;
+}
+.select-css::-ms-expand {
+	display: none;
+}
+.select-css:hover {
+	border-color: #888;
+}
+.select-css:focus {
+	border-color: #aaa;
+	outline: none;
+}
+.select-css option {
+	font-weight:normal;
+}
+
+/* Support for rtl text, explicit support for Arabic and Hebrew */
+*[dir="rtl"] .select-css, :root:lang(ar) .select-css, :root:lang(iw) .select-css {
+	background-position: left .7em top 50%, 0 0;
+	padding: .6em .8em .5em 1.4em;
+}
+
+/* Disabled styles */
+.select-css:disabled, .select-css[aria-disabled=true] {
+	color: graytext;
+	background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22graytext%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E'),
+	  linear-gradient(to bottom, #ffffff 0%,#e5e5e5 100%);
+}
+.select-css:disabled:hover, .select-css[aria-disabled=true] {
+	border-color: #aaa;
+}
+
+.spendMoney {
+  background-color: red;
+}
+
+.svg_icons{
+  transform: scale(1);
+}
+
+.transaction-icons {
+  margin: auto ;
+}
+
+.transaction-column {
+  padding: 0 30px 0 0;
+}
+
+.transaction-container {
+  padding: 0 10px;
+  background-color: #fff;
+  border-bottom: solid 1px;
+  border-right: solid 1px;
+  border-color: #d4d5d9;
+  font-size: .90rem;
+}
+
+.transaction-detail {
+  padding: 0;
+}
+
+/* Accounts Area */
+.accountsArea {
+  padding-top: 48px;
+}
+
+.accounts-column {
+  padding: 0;
+}
+
+.accountsDetail {
+  font-size: .90rem;
+  padding: 0;
+}
+
+.accountsHeader {
+  font-weight: bold;
+  border-bottom: solid 1px;
+}
+
+.account-link:hover {
+  color: #d4d5d9;
+}
+
+.accountRows {
+  background-color: #fff;
+  padding: 0 10px;
+  margin: 0;
+}
+
+.add-account-btn {
+  margin-left: 30%;
+  color: green;
+}
+
+.add-account-btn:hover {
+  color: #d4d5d9;
+}
+
+.bottom-row {
+  border-top: solid 1px;
+  border-color: #000;
+  padding: 0 10px;
+  background-color: #97a9f0;
+}
+
+.new-account-row {
+  border-bottom: solid 1px;
+  border-color: #000;
+  
+}
+
+.new-account-input {
+  padding: 0 5px 0 0;
+  border: none;
+  width: 75%;
+}
+
+.radio-button {
+  margin: auto 3%;
+  font-size: .90rem;
+  text-align: center;
+}
+
+.radio-button-label {
+  margin: auto 0;
+  font-size: .90rem;
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  padding: 30px;
+  color: #fff;
+}
+
+/* Media query */
+@media (max-width: 990px) {
+  .new-transaction-text-box {
+    padding-left: 0;
+  }
+}
