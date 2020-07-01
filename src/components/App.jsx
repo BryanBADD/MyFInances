@@ -1,4 +1,3 @@
-/* eslint-disable array-callback-return */
 import React, { useState } from 'react';
 import Header from "./Header";
 import Footer from "./Footer";
@@ -26,6 +25,8 @@ function App(props) {
   let showBalance = 0;
   let oBalance = 0;
   let focusedAccount = [];
+  let unReconciledTotal = 0;
+  const [uTotal, setUTotal] = useState("");
   const [isAddingTransaction, setIsAddingTransaction] = useState(false);
   const [isAddingAccount, setIsAddingAccount] = useState(false);
   const [accounts, setAccounts] = useState([]);
@@ -142,6 +143,7 @@ function App(props) {
   }
   
   function changeAccount(clickedAccountName) {
+      currentAccount = accounts.filter(account => account.name=== clickedAccountName);
       setTransactions([]);
       setAccountName(clickedAccountName);
   }
@@ -155,6 +157,30 @@ function App(props) {
     setIsReconciling(false);
   }
 
+  function handleCheckboxClick(isChecked, amount) {
+        if (isChecked) {
+          unReconciledTotal = parseFloat(unReconciledTotal) - parseFloat(amount); 
+          unReconciledTotal = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(unReconciledTotal); 
+          setUTotal(unReconciledTotal);
+          console.log(isChecked, amount, unReconciledTotal);
+          // updateUnreconciledTotal(unReconciledTotal);
+           
+            //Subtract transaction amount from unreconciled transaction total and update summary
+                //Send transaction amount to 
+            //Update transaction in DB to set isCleared to true
+        }
+        if (!isChecked) {
+          unReconciledTotal = parseFloat(unReconciledTotal) + parseFloat(amount);  
+          unReconciledTotal = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(unReconciledTotal); 
+          setUTotal(unReconciledTotal);
+          console.log(isChecked, amount, unReconciledTotal);
+            //Add transaction amount to unreconciled transaction total and update summary
+            //Update transaction in DB to set isCleared to true
+        }
+
+       //Do not refresh the list of unreconciled transactions
+  }
+
   getExistingAccounts();
   getFocusedAcct();
   
@@ -162,123 +188,118 @@ function App(props) {
   
 
   return (
-    <div>
-      <Header onAdd={addingTransaction}/>
-      <div className="container">
-        <div className="row">
-          <div className="col-lg-12">
-            {accounts.length > 0 && 
-              <div >
-                {isReconciling ? 
-                  <div className="row">
-                    <div className="col-lg-8 transaction-column">
-                      <ReconcileHeading 
-                        accountName={accountName}
-                        onFinish={finishReconcile}/>
-                      {transactions.map((transaction, index) => {
-                        return (<ReconcileAcct 
-                          key={index}
-                          id={transaction._id}
-                          accountName={accountName}
-                          date={transaction.date}
-                          description={transaction.description}
-                          amount={transaction.amount}
-                        />)})}
-                      </div>
-                      <div className="col-lg-4 accounts-column">
-                        <ReconcileSummary 
-                          accountName={accountName}
-                        />
-                      </div>
-                  </div>:
-                  <div>
-                    <div className="row">
-                      <div className="col-lg-8 transaction-column">
-                        <div>
-                            <div className="row accountName">
-                              <div className="col-lg-6 ">{accountName} Account</div>
-                              <div className="col-lg-2 vertical-center"><p className="navigation vertical-center" onClick={addingTransaction}>Add Transaction</p></div>
-                              <div className="col-lg-4 vertical-center"><p className="navigation vertical-center" onClick={reconcileAcct}>Reconcile</p></div>
-                            </div>
-                            <div>
-                              <TransactionHeading />
-                                {isAddingTransaction && <NewTransaction
-                                  account={accountName} 
-                                  onAdd={addTransaction}
-                                  onSubmit={resetIsAddingTransaction}
-                                />}
-                                
-                                {transactions.map((transaction, index) => {
-                                  showBalance = parseFloat(runningTotal);
-                                  index === 0 && (runningTotal = parseFloat(focusedAccount[0].currentBalance));
-                                  index === 0 && (showBalance = parseFloat(focusedAccount[0].currentBalance));
-                                  runningTotal = parseFloat(runningTotal) - parseFloat(transaction.amount);
-                                  return <Transaction 
-                                    key={index}
-                                    id={transaction._id}
-                                    accountId={transaction.accountId}
-                                    account={accountName}
-                                    date={transaction.date}
-                                    description={transaction.description}
-                                    amount={transaction.amount}
-                                    category={transaction.category}
-                                    subcategory={transaction.subcategory}
-                                    memo={transaction.memo}
-                                    balance={showBalance}
-                                    isCleared={transaction.isCleared}
-                                    onDelete={deleteTransaction}
-                                    onUpdate={updateTransaction} />
-                                  })
-                                }
-                            </div> 
-                          </div>      
-                      </div>
-                      <div className="col-lg-4 accounts-column">
-                          <div className="row accountName">
-                            <div className="col-lg-6 ">Accounts</div>
-                            <div className="col-lg-6 vertical-center"><p onClick={addingAccount} className="navigation vertical-center" >Add Account</p></div>
-                          </div> 
-                          <div className="row heading-row">
-                            <div className="col-lg-8 column-heading">Account</div>
-                            <div className="col-lg-4 column-heading right-align">Balance</div>
-                          </div>
-                          {isAddingAccount && <NewAccount 
-                            onAdd={addAccount}
-                            onSubmit={resetIsAddingAccount}
-                            />
-                          }
-                          {accounts.map((account, index) => {
-                            overallBalance = parseFloat(overallBalance) + parseFloat(account.currentBalance);
-                            overallBalance < 0 && (style="col-lg-4 column-heading right-align negative-transaction");
-                            oBalance = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(overallBalance);
-                            return (
-                            <Accounts 
-                              key={index}
-                              id={index}
-                              name={account.name}
-                              startingBalance={account.startingBalance}
-                              currentBalance={account.currentBalance}
-                              onAdd={addTransaction}
-                              onClick={changeAccount}
-                              onDelete={deleteAccount}
-                            />)})
-                          }
-                          {accounts.length > 0 && 
-                            <div className="row bottom-row">
-                              <div className="col-lg-8 column-heading">Total</div>
-                              <div className={style}>{oBalance}</div>
-                            </div>
-                          }
-                        </div>
-                    </div>
-                  </div>
+  <div>
+    <div className="container">
+      <Header onAdd={addingTransaction} />
+      <div className="row">
+        {accounts.length > 0 && 
+          <div className="col-lg-8 transaction-column">
+            {isReconciling ?
+              <div>
+                <ReconcileHeading 
+                  accountName={accountName}
+                  onFinish={finishReconcile} />
+                {transactions.map((transaction, index) => {
+                  if (!transaction.isCleared) {unReconciledTotal = parseFloat(unReconciledTotal) + parseFloat(transaction.amount);}
+                  return (<ReconcileAcct 
+                    key={index}
+                    id={transaction._id}
+                    whichOne={index}
+                    length={transactions.length}
+                    accountName={accountName}
+                    date={transaction.date}
+                    description={transaction.description}
+                    amount={transaction.amount}
+                    currentBalance={focusedAccount[0].currentBalance}
+                    onCheckboxClick={handleCheckboxClick}
+                  />)})}
+              </div>:
+              <div>
+               <TransactionHeading 
+                onReconcile={reconcileAcct} 
+                onAdd={addingTransaction} />
+                {isAddingTransaction && <NewTransaction
+                  account={accountName}
+                  onSubmit={resetIsAddingTransaction}
+                />}
+                {transactions.map((transaction, index) => {
+                  showBalance = parseFloat(runningTotal);
+                  index === 0 && (runningTotal = parseFloat(focusedAccount[0].currentBalance));
+                  index === 0 && (showBalance = parseFloat(focusedAccount[0].currentBalance));
+                  runningTotal = parseFloat(runningTotal) - parseFloat(transaction.amount);
+                  return <Transaction 
+                    key={index}
+                    id={transaction._id}
+                    accountId={transaction.accountId}
+                    account={accountName}
+                    date={transaction.date}
+                    description={transaction.description}
+                    amount={transaction.amount}
+                    category={transaction.category}
+                    subcategory={transaction.subcategory}
+                    memo={transaction.memo}
+                    balance={showBalance}
+                    isCleared={transaction.isCleared}
+                    onDelete={deleteTransaction}
+                    onUpdate={updateTransaction} />
+                  })
                 }
+              </div> 
+            }
+          </div>
+        }
+        <div className="col-lg-4 accounts-column">
+            {isReconciling ?
+              <div>
+                <ReconcileSummary 
+                accountName={accountName}
+                currentBalance={focusedAccount[0].currentBalance}
+                unReconciledTotal={uTotal} />
+              </div>:
+              <div>
+                <div>
+                  <div className="row accountName">
+                    <div className="col-lg-6 ">Accounts</div>
+                    <div className="col-lg-6 vertical-center"><p onClick={addingAccount} className="navigation vertical-center" >Add Account</p></div>
+                  </div> 
+                  <div className="row heading-row">
+                    <div className="col-lg-8 column-heading">Account</div>
+                    <div className="col-lg-4 column-heading right-align">Balance</div>
+                  </div>
+                  {isAddingAccount && <NewAccount 
+                    onAdd={addAccount}
+                    onSubmit={resetIsAddingAccount}
+                    />
+                  }
+                  {accounts.map((account, index) => {
+                    overallBalance = parseFloat(overallBalance) + parseFloat(account.currentBalance);
+                    overallBalance < 0 && (style="col-lg-4 column-heading right-align negative-transaction");
+                    oBalance = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(overallBalance);
+                    return (
+                    <Accounts 
+                      key={index}
+                      id={index}
+                      name={account.name}
+                      startingBalance={account.startingBalance}
+                      currentBalance={account.currentBalance}
+                      onAdd={addTransaction}
+                      onClick={changeAccount}
+                      onDelete={deleteAccount}
+                    />)})
+                  }
+                  {accounts.length > 0 && 
+                    <div className="row bottom-row">
+                      <div className="col-lg-8 column-heading">Total</div>
+                      <div className={style}>{oBalance}</div>
+                    </div>
+                  }
+                </div>
               </div>
             }
-            </div>
         </div>
-      </div>  
-      <Footer />
+      </div>
+    </div> 
+    <Footer />
     </div>
   );
 }
