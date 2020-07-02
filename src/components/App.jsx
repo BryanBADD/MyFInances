@@ -16,6 +16,7 @@ import ReconcileSummary from "./ReconcileSummary";
 let existingAccounts = "";
 let existingTransactions = "";
 const a = "Checking";
+let statementBalance = "";
 
 function App(props) {
 
@@ -26,7 +27,7 @@ function App(props) {
   let oBalance = 0;
   let focusedAccount = [];
   let unReconciledTotal = 0;
-  const [uTotal, setUTotal] = useState("");
+  const [sBalance, setSBalance] = useState("");
   const [isAddingTransaction, setIsAddingTransaction] = useState(false);
   const [isAddingAccount, setIsAddingAccount] = useState(false);
   const [accounts, setAccounts] = useState([]);
@@ -70,8 +71,9 @@ function App(props) {
       .then((value) => {
         
         existingTransactions = value.data.data;
-        if (transactions.length !== existingTransactions.length) { 
-          setTransactions(existingTransactions);
+        const cTrans = existingTransactions.filter(t => t.isCleared === false);
+        if (transactions.length !== existingTransactions.length) {
+          setTransactions(cTrans);
           }})
       .catch(err => {
         console.error("Connection error", err.message)
@@ -149,36 +151,35 @@ function App(props) {
   }
 
   function reconcileAcct() {
+    statementBalance = prompt("What is the balance on your statement?");
     setIsReconciling(!isReconciling);
   }
 
   function finishReconcile() {
-    console.log("Finish reconcile");
+    statementBalance = "";
     setIsReconciling(false);
   }
 
-  function handleCheckboxClick(isChecked, amount) {
+  function handleCheckboxClick(isChecked, transaction) {
+        console.log(isChecked, transaction)
         if (isChecked) {
-          unReconciledTotal = parseFloat(unReconciledTotal) - parseFloat(amount); 
-          unReconciledTotal = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(unReconciledTotal); 
-          setUTotal(unReconciledTotal);
-          console.log(isChecked, amount, unReconciledTotal);
-          // updateUnreconciledTotal(unReconciledTotal);
-           
-            //Subtract transaction amount from unreconciled transaction total and update summary
-                //Send transaction amount to 
-            //Update transaction in DB to set isCleared to true
+          transactions.forEach(t => { 
+            if (t._id === transaction.id) {
+              t.isCleared = true;
+              api.updateTransactionById(t._id, t);
+            }
+          });
+          setSBalance("Y");
         }
         if (!isChecked) {
-          unReconciledTotal = parseFloat(unReconciledTotal) + parseFloat(amount);  
-          unReconciledTotal = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(unReconciledTotal); 
-          setUTotal(unReconciledTotal);
-          console.log(isChecked, amount, unReconciledTotal);
-            //Add transaction amount to unreconciled transaction total and update summary
-            //Update transaction in DB to set isCleared to true
+          transactions.forEach(t => { 
+            if (t._id === transaction.id) {
+              t.isCleared = false;
+              api.updateTransactionById(t._id, t);
+            }
+          });
+          setSBalance("N");
         }
-
-       //Do not refresh the list of unreconciled transactions
   }
 
   getExistingAccounts();
@@ -209,6 +210,8 @@ function App(props) {
                     accountName={accountName}
                     date={transaction.date}
                     description={transaction.description}
+                    sBalance={sBalance}
+                    isCleared={transaction.isCleared}
                     amount={transaction.amount}
                     currentBalance={focusedAccount[0].currentBalance}
                     onCheckboxClick={handleCheckboxClick}
@@ -220,6 +223,7 @@ function App(props) {
                 onAdd={addingTransaction} />
                 {isAddingTransaction && <NewTransaction
                   account={accountName}
+                  onAdd={addTransaction}
                   onSubmit={resetIsAddingTransaction}
                 />}
                 {transactions.map((transaction, index) => {
@@ -253,8 +257,9 @@ function App(props) {
               <div>
                 <ReconcileSummary 
                 accountName={accountName}
+                statementBalance={statementBalance}
                 currentBalance={focusedAccount[0].currentBalance}
-                unReconciledTotal={uTotal} />
+                unReconciledTotal={unReconciledTotal} />
               </div>:
               <div>
                 <div>

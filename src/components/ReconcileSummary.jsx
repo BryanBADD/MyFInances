@@ -1,23 +1,15 @@
-import React, {useState} from "react";
-
-// eslint-disable-next-line no-unused-vars
-function updateUnreconciledTotal(amount) {
-    
-//    return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(amount);
-}
+import React from "react";
 
 function ReconcileSummary(props) {
-    // let [unReconciledTotal, setUnreconciledTotal] = 
-    //     useState(updateUnreconciledTotal(props.unReconciledTotal));
-    let unReconciledTotal = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(props.unReconciledTotal);
-    let statementBalance = prompt("What is the balance on your statement?");
-    const currentBalance = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(props.currentBalance);
-    let endingBalance = parseFloat(statementBalance) + parseFloat(props.unReconciledTotal);
-    let difference = parseFloat(props.currentBalance) - parseFloat(endingBalance);
-    difference = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(difference);
-    statementBalance = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(statementBalance);
-    endingBalance = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(endingBalance);
+    console.log(props);
     
+    let unReconciledTotal = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(props.unReconciledTotal);
+    const currentBalance = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(props.currentBalance);
+    let endingBalance = parseFloat(props.statementBalance) + parseFloat(props.unReconciledTotal);
+    let difference = parseFloat(props.statementBalance) - parseFloat(endingBalance);
+    difference = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(difference);
+    let stmntBalance = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(props.statementBalance);
+    endingBalance = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(endingBalance);
 
      return (
         <div className="col-lg-12 accounts-column">
@@ -33,7 +25,7 @@ function ReconcileSummary(props) {
                 </div>
                 <div className="row accountRows">
                     <div className="col-lg-9 accountsDetail">Statement Balance:</div>
-                    <div className="col-lg-3 accountsDetail">{statementBalance}</div>
+                    <div className="col-lg-3 accountsDetail">{stmntBalance}</div>
                 </div>
                 <div className="row accountRows">
                     <div className="col-lg-9 accountsDetail">Outstanding Transactions:</div>

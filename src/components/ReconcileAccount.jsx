@@ -9,7 +9,7 @@ function reconcileAccount(props) {
 
     function handleClick() {
         let isChecked = document.getElementById(props.id).checked;
-        props.onCheckboxClick(isChecked, props.amount);
+        props.onCheckboxClick(isChecked, props);
     }
 
     return (
