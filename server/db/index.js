@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-require("dotenv").config();
 
 //Create database connection
 // process.env.MONGODB_URI || process.env.REACT_APP_DBCONNECTION
