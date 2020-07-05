@@ -1,7 +1,6 @@
 import React from "react";
 
 function ReconcileSummary(props) {
-    console.log(props);
     
     let unReconciledTotal = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(props.unReconciledTotal);
     const currentBalance = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(props.currentBalance);

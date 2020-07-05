@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
-import Header from "./Header";
-import Footer from "./Footer";
-import NewTransaction from "./NewTransaction";
-import Accounts from "./Accounts";
-import Transaction from "./Transaction";
-import TransactionHeading from "./TransactionHeadings";
-import NewAccount from "./NewAccount";
+import Header from "./header-footer/Header";
+import Footer from "./header-footer/Footer";
+import NewTransaction from "./transactions/NewTransaction";
+import Accounts from "./accounts/Accounts";
+import Transaction from "./transactions/Transaction";
+import TransactionHeading from "./transactions/TransactionHeadings";
+import NewAccount from "./accounts/NewAccount";
 import api from "../api";
-import ReconcileAcct from "./ReconcileAccount";
-import ReconcileHeading from "./ReconcileHeading";
-import ReconcileSummary from "./ReconcileSummary";
+import ReconcileAcct from "./reconcile-account/ReconcileAccount";
+import ReconcileHeading from "./reconcile-account/ReconcileHeading";
+import ReconcileSummary from "./reconcile-account/ReconcileSummary";
+import TransferMoney from "./transactions/TransferFunds";
 
   
 
@@ -34,6 +35,8 @@ function App(props) {
   const [accountName, setAccountName] = useState(a);
   const [transactions, setTransactions] = useState([]);
   const [isReconciling, setIsReconciling] = useState(false);
+  const [isTransferring, setIsTransferring] = useState(false);
+  const [showCashFlow, setShowCashFlow] = useState(false);
   
   
   function getAccounts() {
@@ -161,7 +164,7 @@ function App(props) {
   }
 
   function handleCheckboxClick(isChecked, transaction) {
-        console.log(isChecked, transaction)
+        
         if (isChecked) {
           transactions.forEach(t => { 
             if (t._id === transaction.id) {
@@ -182,6 +185,56 @@ function App(props) {
         }
   }
 
+  function transferMoney() {
+    setIsTransferring(!isTransferring);
+  }
+
+  function cashFlowReport() {
+    console.log("Show cash flow report");
+    
+    setShowCashFlow(!showCashFlow);
+  }
+
+  function processTransfer(transfer) {
+    console.log("Transfer sent!", transfer);
+        //Get IDs and current balances for From and To accounts
+        const fAccount = accounts.filter(account => account.name === transfer.fromAccount);
+        const tAccount = accounts.filter(account => account.name === transfer.toAccount);
+        
+        //Create transaction for From account
+        const fAccountTrans = {
+          date: transfer.date,
+          account: fAccount[0].name,
+          description: "Transfer to " + tAccount[0].name,
+          amount: 0 - transfer.amount,
+          accountId: fAccount[0]._id,
+          isCleared: false,
+          category: "Transfer",
+          subcategory: "[" + tAccount[0].name + "]"
+        };
+
+        //Create transaction for To account
+        const tAccountTrans = {
+          date: transfer.date,
+          account: tAccount[0].name,
+          description: "Transfer from " + fAccount[0].name,
+          amount: transfer.amount,
+          accountId: tAccount[0]._id,
+          isCleared: false,
+          category: "Transfer",
+          subcategory: "[" + fAccount[0].name + "]"
+        };
+
+        //Add transaction to From account
+        addTransaction(fAccountTrans);
+
+        //Add transaction to To account
+        addTransaction(tAccountTrans);
+
+        //Reset isTransferring
+        setIsTransferring(false);
+  }
+
   getExistingAccounts();
   getFocusedAcct();
   
@@ -189,9 +242,15 @@ function App(props) {
   
 
   return (
-  <div>
-    <div className="container">
-      <Header onAdd={addingTransaction} />
+    <div>
+      <Header 
+        onCashFlow={cashFlowReport}
+        onAdd={addingTransaction} />
+      {showCashFlow ? 
+        <div className="container">
+
+        </div>:
+        <div className="container">
       <div className="row">
         {accounts.length > 0 && 
           <div className="col-lg-8 transaction-column">
@@ -219,8 +278,14 @@ function App(props) {
               </div>:
               <div>
                <TransactionHeading 
+                account={accountName}
                 onReconcile={reconcileAcct} 
+                onTransfer={transferMoney}
                 onAdd={addingTransaction} />
+                {isTransferring && <TransferMoney 
+                  accountsArray={accounts}
+                  onProcessTransfer={processTransfer}
+                />}
                 {isAddingTransaction && <NewTransaction
                   account={accountName}
                   onAdd={addTransaction}
@@ -304,7 +369,8 @@ function App(props) {
         </div>
       </div>
     </div> 
-    <Footer />
+      }
+      <Footer />
     </div>
   );
 }

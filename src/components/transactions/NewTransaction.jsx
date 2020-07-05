@@ -61,7 +61,7 @@ function newTransaction(props) {
         </div>
 
         <div className="row new-transaction-row">
-        <div className="col-lg-1 input-column"></div>
+        <div className="col-lg-2 input-column"></div>
         <div className="col-lg-3 input-column">
           <select name="category" onChange={handleChange} className="select-css" placeholder="Select category">
             <option style={{color: "#d3d3d3"}}>Select a Category</option>
@@ -79,7 +79,7 @@ function newTransaction(props) {
             <option value="Debts">Debts</option>
           </select>
         </div>
-        <div className="col-lg-3 input-column"><input name="subcategory" onChange={handleChange} className="newTransactionInput" value={transaction.subcategory} type="text" placeholder="SubCategory"/></div>
+        <div className="col-lg-4 input-column"><input name="subcategory" onChange={handleChange} className="newTransactionInput" value={transaction.subcategory} type="text" placeholder="SubCategory"/></div>
         <div className="col-lg-3 input-column"><input name="memo" onChange={handleChange} className="newTransactionInput" value={transaction.memo} type="text" placeholder="Memo"/></div>
         </div>
     </div>

@@ -51,6 +51,7 @@ input[type="text"] {
   font-size: .75rem;
   color: #dce3fa;
   font-weight: bold;
+  text-align: center;
 }
 
 .navigation:hover {

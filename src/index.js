@@ -6,7 +6,7 @@ ReactDOM.render(
     <App />, document.getElementById("root")
 );
 
-//TODO: Reconcile Accounts
+
 //TODO: Cash flow report
 //TODO: Cash flow graphs
 //TODO: Paginate transactions when looking at an account
