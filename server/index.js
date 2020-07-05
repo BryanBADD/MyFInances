@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
@@ -14,6 +15,11 @@ app.use(bodyParser.json());
 //Handle database connection interruptions
 db.on("error", console.error.bind(console, "MongoDB connection error:"));
 
+app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+  });
 
 //Incorporate routers
 app.use("/api", accountRouter);
