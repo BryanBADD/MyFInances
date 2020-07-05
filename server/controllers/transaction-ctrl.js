@@ -162,7 +162,7 @@ getTransactionById = async (req, res) => {
         .catch((err) => {console.log(err);});
 };
 
-getTransactions = async (req, res) => {
+getTransactionsByAccount = async (req, res) => {
     const body = req.body;
     
     //Check to see if request is valid
@@ -199,11 +199,49 @@ getTransactions = async (req, res) => {
         });  
 };
 
+getTransactions = async (req, res) => {
+    const body = req.body;
+    
+    //Check to see if request is valid
+    if (!body) {
+        return res.state(400).json({
+            success: false,
+            error: "You must provide an account!",
+        });
+    }
+    
+    await Transaction
+        .find((err, foundTransactions) => {
+            if (err) {
+                return res.status(400).json({
+                    success: false,
+                    error: err,
+                })
+            }
+            if (!foundTransactions.length) {
+                return res.status(404).json({
+                    success: false,
+                    error: "No transactions found!",
+                })
+            }
+            return res.status(200).json({
+                success: true,
+                data: foundTransactions
+            })
+        })
+        .sort({date: -1, amount: -1})
+        .limit()
+        .catch((err) => {
+            console.log(err);
+        });  
+};
+
 module.exports = {
     createTransaction,
     updateTransaction,
     deleteTransaction,
     getTransactionById,
+    getTransactionsByAccount,
     getTransactions
     // updateTransaction
 };

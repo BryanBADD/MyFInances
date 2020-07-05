@@ -11,16 +11,19 @@ import ReconcileAcct from "./reconcile-account/ReconcileAccount";
 import ReconcileHeading from "./reconcile-account/ReconcileHeading";
 import ReconcileSummary from "./reconcile-account/ReconcileSummary";
 import TransferMoney from "./transactions/TransferFunds";
+import CashFlow from "./cash-flow/cash-flow";
 
   
 
 let existingAccounts = "";
 let existingTransactions = "";
+let allExistingTransactions = "";
 const a = "Checking";
 let statementBalance = "";
 
 function App(props) {
 
+  let navLabel = "";
   let currentAccount = [];
   let overallBalance = 0;
   let runningTotal = 0;
@@ -33,6 +36,7 @@ function App(props) {
   const [isAddingAccount, setIsAddingAccount] = useState(false);
   const [accounts, setAccounts] = useState([]);
   const [accountName, setAccountName] = useState(a);
+  const [allTransactions, setAllTransactions] = useState([]);
   const [transactions, setTransactions] = useState([]);
   const [isReconciling, setIsReconciling] = useState(false);
   const [isTransferring, setIsTransferring] = useState(false);
@@ -45,6 +49,10 @@ function App(props) {
 
   function getTransactions(acctId) {
     return api.getAllTransactions(acctId);
+  }
+
+  function getEveryTransaction() {
+    return api.getEveryTransaction();
   }
 
   async function getExistingAccounts() {
@@ -77,6 +85,21 @@ function App(props) {
         const cTrans = existingTransactions.filter(t => t.isCleared === false);
         if (transactions.length !== existingTransactions.length) {
           setTransactions(cTrans);
+          }})
+      .catch(err => {
+        console.error("Connection error", err.message)
+    });
+
+  }
+
+  async function getAllExistingTransactions() {
+    
+    await getEveryTransaction()
+      .then((value) => {
+        
+        allExistingTransactions = value.data.data;
+        if (allTransactions.length !== allExistingTransactions.length) {
+          setAllTransactions(allExistingTransactions);
           }})
       .catch(err => {
         console.error("Connection error", err.message)
@@ -237,18 +260,23 @@ function App(props) {
 
   getExistingAccounts();
   getFocusedAcct();
+  getAllExistingTransactions();
   
   let style = "col-lg-4 column-heading right-align";
   
 
   return (
     <div>
+      {showCashFlow ? navLabel = "Return": navLabel = "Cash Flow Report"}
       <Header 
+        navigation={navLabel}
         onCashFlow={cashFlowReport}
         onAdd={addingTransaction} />
       {showCashFlow ? 
         <div className="container">
-
+          <CashFlow 
+            transactions={allExistingTransactions}
+          />
         </div>:
         <div className="container">
       <div className="row">
