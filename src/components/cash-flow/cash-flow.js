@@ -1,15 +1,67 @@
+/* eslint-disable no-loop-func */
 import React, { PureComponent } from 'react';
 import { PieChart, Pie, Sector, Cell, } from 'recharts';
+import api from "../../api";
 
-const data = [
-  { name: 'Group A', value: 400 },
-  { name: 'Group B', value: 300 },
-  { name: 'Group C', value: 300 },
-  { name: 'Group D', value: 200 },
-  { name: "Group E", value: 500 }
-];
+let transactions = [];
+let categories = [];
+let currentCategory = [];
+let COLORS = [];
 
-const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', "gray"];
+//Create an array with all transactions (or requested transactions)
+async function getAllExistingTransactions() {
+    
+  await getEveryTransaction()
+    .then((value) => {
+      const t = value.data.data;
+      if (t.length > 0) {transactions = t}
+      sortTransactions(transactions);
+    })
+    .catch(err => {
+      console.error("Connection error", err.message)
+    });
+  }
+
+function getEveryTransaction() {
+  return api.getEveryTransaction();
+}
+
+getAllExistingTransactions();
+
+const random_hex_color_code = () => {
+  let n = (Math.random() * 0xfffff * 1000000).toString(16);
+  return '#' + n.slice(0, 6);
+}
+
+function sortTransactions(trans) {
+  var i = 0;
+  do {
+    if (categories.length === 0) {
+      categories.push({
+        name: trans[i].category, 
+        value: trans[i].amount})
+      } else {
+          currentCategory = categories.filter(c => c.name === trans[i].category);
+          if (currentCategory.length === 0) {
+            categories.push({
+              name: trans[i].category, 
+              value: parseFloat(trans[i].amount)})
+          } else {
+              currentCategory[0].value = parseFloat(currentCategory[0].value) + 
+                parseFloat(trans[i].amount);
+          }
+        }
+      i++;
+    }
+  while (i < trans.length);
+  categories.forEach(c => {
+    c.value = Math.abs(c.value)
+    let newColor = random_hex_color_code();
+    COLORS.push(newColor)
+  });
+}
+
+const data = categories;
 
 const RADIAN = Math.PI / 180;
 const renderCustomizedLabel = ({
@@ -28,7 +80,8 @@ const renderCustomizedLabel = ({
 
 export default class Example extends PureComponent {
   static jsfiddleUrl = 'https://jsfiddle.net/alidingling/c9pL8k61/';
-
+  
+  
   render() {
     return (
         <div className="container transaction-container">
@@ -36,7 +89,10 @@ export default class Example extends PureComponent {
                 <h2>Cash Flow Report</h2>
             </div>
             <div className="row">
-                <div className="col-lg-8">
+                <div className="col-lg-6">
+                    <h3>Category Summary</h3>
+                </div>
+                <div className="col-lg-6">
                     <PieChart width={400} height={400}>
                         <Pie
                         data={data}
@@ -54,9 +110,6 @@ export default class Example extends PureComponent {
                         </Pie>
                     </PieChart>
                 </div>
-                <div className="col-lg-4">
-                    <h3>Category Summary</h3>
-                </div>
             </div>
       </div>
     );
@@ -65,9 +118,9 @@ export default class Example extends PureComponent {
 
 
 
-//TODO: Create an array with all transactions (or requested transactions)
-//TODO: Map through array
-    //TODO: If the item's category exists in the category array, add item's amount to the category's total
+
+
+    
     //TODO: If the item's category doesn't exis in the category array:
         //TODO: Add category to the category array with category name as name and item transaction amount as total
     //TODO: Return a row to the Category Summary with the category name and total for display

@@ -14,10 +14,8 @@ import TransferMoney from "./transactions/TransferFunds";
 import CashFlow from "./cash-flow/cash-flow";
 
   
-
 let existingAccounts = "";
 let existingTransactions = "";
-let allExistingTransactions = "";
 const a = "Checking";
 let statementBalance = "";
 
@@ -36,7 +34,6 @@ function App(props) {
   const [isAddingAccount, setIsAddingAccount] = useState(false);
   const [accounts, setAccounts] = useState([]);
   const [accountName, setAccountName] = useState(a);
-  const [allTransactions, setAllTransactions] = useState([]);
   const [transactions, setTransactions] = useState([]);
   const [isReconciling, setIsReconciling] = useState(false);
   const [isTransferring, setIsTransferring] = useState(false);
@@ -49,10 +46,6 @@ function App(props) {
 
   function getTransactions(acctId) {
     return api.getAllTransactions(acctId);
-  }
-
-  function getEveryTransaction() {
-    return api.getEveryTransaction();
   }
 
   async function getExistingAccounts() {
@@ -85,21 +78,6 @@ function App(props) {
         const cTrans = existingTransactions.filter(t => t.isCleared === false);
         if (transactions.length !== existingTransactions.length) {
           setTransactions(cTrans);
-          }})
-      .catch(err => {
-        console.error("Connection error", err.message)
-    });
-
-  }
-
-  async function getAllExistingTransactions() {
-    
-    await getEveryTransaction()
-      .then((value) => {
-        
-        allExistingTransactions = value.data.data;
-        if (allTransactions.length !== allExistingTransactions.length) {
-          setAllTransactions(allExistingTransactions);
           }})
       .catch(err => {
         console.error("Connection error", err.message)
@@ -219,48 +197,47 @@ function App(props) {
   }
 
   function processTransfer(transfer) {
-    console.log("Transfer sent!", transfer);
-        //Get IDs and current balances for From and To accounts
-        const fAccount = accounts.filter(account => account.name === transfer.fromAccount);
-        const tAccount = accounts.filter(account => account.name === transfer.toAccount);
-        
-        //Create transaction for From account
-        const fAccountTrans = {
-          date: transfer.date,
-          account: fAccount[0].name,
-          description: "Transfer to " + tAccount[0].name,
-          amount: 0 - transfer.amount,
-          accountId: fAccount[0]._id,
-          isCleared: false,
-          category: "Transfer",
-          subcategory: "[" + tAccount[0].name + "]"
-        };
+    
+    //Get IDs and current balances for From and To accounts
+    const fAccount = accounts.filter(account => account.name === transfer.fromAccount);
+    const tAccount = accounts.filter(account => account.name === transfer.toAccount);
+    
+    //Create transaction for From account
+    const fAccountTrans = {
+      date: transfer.date,
+      account: fAccount[0].name,
+      description: "Transfer to " + tAccount[0].name,
+      amount: 0 - transfer.amount,
+      accountId: fAccount[0]._id,
+      isCleared: false,
+      category: "Transfer",
+      subcategory: "[" + tAccount[0].name + "]"
+    };
 
-        //Create transaction for To account
-        const tAccountTrans = {
-          date: transfer.date,
-          account: tAccount[0].name,
-          description: "Transfer from " + fAccount[0].name,
-          amount: transfer.amount,
-          accountId: tAccount[0]._id,
-          isCleared: false,
-          category: "Transfer",
-          subcategory: "[" + fAccount[0].name + "]"
-        };
+    //Create transaction for To account
+    const tAccountTrans = {
+      date: transfer.date,
+      account: tAccount[0].name,
+      description: "Transfer from " + fAccount[0].name,
+      amount: transfer.amount,
+      accountId: tAccount[0]._id,
+      isCleared: false,
+      category: "Transfer",
+      subcategory: "[" + fAccount[0].name + "]"
+    };
 
-        //Add transaction to From account
-        addTransaction(fAccountTrans);
+    //Add transaction to From account
+    addTransaction(fAccountTrans);
 
-        //Add transaction to To account
-        addTransaction(tAccountTrans);
+    //Add transaction to To account
+    addTransaction(tAccountTrans);
 
-        //Reset isTransferring
-        setIsTransferring(false);
+    //Reset isTransferring
+    setIsTransferring(false);
   }
 
   getExistingAccounts();
   getFocusedAcct();
-  getAllExistingTransactions();
   
   let style = "col-lg-4 column-heading right-align";
   
@@ -274,9 +251,7 @@ function App(props) {
         onAdd={addingTransaction} />
       {showCashFlow ? 
         <div className="container">
-          <CashFlow 
-            transactions={allExistingTransactions}
-          />
+          <CashFlow />
         </div>:
         <div className="container">
       <div className="row">
@@ -402,5 +377,6 @@ function App(props) {
     </div>
   );
 }
+
 
 export default App;
