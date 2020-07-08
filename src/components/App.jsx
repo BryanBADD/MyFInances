@@ -12,9 +12,9 @@ import ReconcileHeading from "./reconcile-account/ReconcileHeading";
 import ReconcileSummary from "./reconcile-account/ReconcileSummary";
 import TransferMoney from "./transactions/TransferFunds";
 import CashFlow from "./cash-flow/cash-flow";
-const express = require("express");
+// const express = require("express");
 
-const app = express();
+// const app = express();
 
   
 let existingAccounts = "";
@@ -244,10 +244,10 @@ function App(props) {
   let style = "col-lg-4 column-heading right-align";
 
   //Listen for port and confirm it is running
-const port = process.env.PORT || 3000;
-app.listen(port, () => {
-    console.log(`Server started on port ${port}`);
-});
+// const port = process.env.PORT || 3000;
+// app.listen(port, () => {
+//     console.log(`Server started on port ${port}`);
+// });
   
   return (
     <div>
