@@ -12,9 +12,6 @@ import ReconcileHeading from "./reconcile-account/ReconcileHeading";
 import ReconcileSummary from "./reconcile-account/ReconcileSummary";
 import TransferMoney from "./transactions/TransferFunds";
 import CashFlow from "./cash-flow/cash-flow";
-// const express = require("express");
-
-// const app = express();
 
   
 let existingAccounts = "";

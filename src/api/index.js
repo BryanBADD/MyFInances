@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api =  axios.create({
-    baseURL: "https://nameless-atoll-61372.herokuapp.com/",
+    baseURL: "nameless-atoll-61372.herokuapp.com",
 });
 
 export const insertTransaction = payload => api.post("/transaction", payload);
