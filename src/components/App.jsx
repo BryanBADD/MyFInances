@@ -156,7 +156,8 @@ function App(props) {
 
   function reconcileAcct() {
     statementBalance = prompt("What is the balance on your statement?");
-    setIsReconciling(!isReconciling);
+    if (statementBalance !== null) {setIsReconciling(!isReconciling);}
+    
   }
 
   function finishReconcile() {
@@ -191,8 +192,6 @@ function App(props) {
   }
 
   function cashFlowReport() {
-    console.log("Show cash flow report");
-    
     setShowCashFlow(!showCashFlow);
   }
 

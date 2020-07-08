@@ -7,6 +7,7 @@ let transactions = [];
 let categories = [];
 let currentCategory = [];
 let COLORS = [];
+let data = [];
 
 //Create an array with all transactions (or requested transactions)
 async function getAllExistingTransactions() {
@@ -56,12 +57,14 @@ function sortTransactions(trans) {
   while (i < trans.length);
   categories.forEach(c => {
     c.value = Math.abs(c.value)
-    let newColor = random_hex_color_code();
+    const newColor = random_hex_color_code();
     COLORS.push(newColor)
   });
+  data = categories.filter(cat => cat.name !== "Income" || cat.value === 0);
+  console.log(data);
 }
 
-const data = categories;
+
 
 const RADIAN = Math.PI / 180;
 const renderCustomizedLabel = ({
@@ -116,11 +119,4 @@ export default class Example extends PureComponent {
   }
 }
 
-
-
-
-
-    
-    //TODO: If the item's category doesn't exis in the category array:
-        //TODO: Add category to the category array with category name as name and item transaction amount as total
-    //TODO: Return a row to the Category Summary with the category name and total for display
+//TODO: Return a row to the Category Summary with the category name and total for display

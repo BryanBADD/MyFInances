@@ -50,18 +50,10 @@ function NewAccount(props) {
         
             <div className="row accountRows new-account-row">
                 <div className="col-lg-12 accounts-column btn-group btn-group-toggle" datatoggle="buttons">
-                    <input className="radio-button" onChange={handleRadioButtonClick} type="radio" id="banking" name="acctType" value="Banking" checked={true}></input>
+                    <input className="radio-button" onChange={handleRadioButtonClick} type="radio" id="banking" name="acctType" value="Banking" ></input>
                     <label className="radio-button-label" htmlFor="banking"> Banking </label>
                     <input className="radio-button" onChange={handleRadioButtonClick} type="radio" id="credit-card" name="acctType" value="Credit Card"></input>
                     <label className="radio-button-label" htmlFor="credit-card"> Credit Card </label>
-                    
-                    
-                    {/* <label className="btn btn-secondary active">
-                        <input type="radio" name="options" id="option1" onChange={handleRadioButtonChange} autoComplete="off" checked> Banking </input>
-                    </label>
-                    <label className="btn btn-secondary">
-                        <input type="radio" name="options" id="option2" onChange={handleRadioButtonChange} autoComplete="off" > Credit Card </input>
-                    </label> */}
                 </div>
             </div>
         </div>
