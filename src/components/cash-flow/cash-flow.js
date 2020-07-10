@@ -109,7 +109,7 @@ export default class Example extends PureComponent {
                       return (
                       <div className="row">
                         <div className="col-lg-6">
-                          <p style={fColor}>{cat.name}</p>
+                          <p>{cat.name}</p>
                         </div>
                         <div className="col-lg-6">
                           {amount}
