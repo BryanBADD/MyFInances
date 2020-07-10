@@ -96,7 +96,8 @@ export default class Example extends PureComponent {
                     <div className="row">
                       <h3>Category Summary</h3>
                     </div>
-                    {data.map(cat, index) => {
+                    {data.map((cat, index) => {
+                      return (
                       <div className="row">
                         <div className="col-lg-6">
                           {cat.name}
@@ -105,7 +106,7 @@ export default class Example extends PureComponent {
                           {cat.value}
                         </div>
                       </div>
-                    }}
+                    )})}
                 </div>
                 <div className="col-lg-6">
                     <PieChart width={400} height={400}>
