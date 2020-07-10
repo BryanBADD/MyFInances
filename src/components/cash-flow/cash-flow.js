@@ -103,7 +103,6 @@ export default class Example extends PureComponent {
                       <h3>Category Summary</h3>
                     </div>
                     {data.map((cat, index) => {
-                      if (cat.index < data.length() - 1) {
                       const amount = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(parseFloat(cat.value));
                       const fColor = "color:" + COLORS[index];
                       console.log(fColor);
@@ -116,7 +115,8 @@ export default class Example extends PureComponent {
                           {amount}
                         </div>
                       </div>
-                    )} else {return null}})}
+                    )} 
+                    )}
                 </div>
                 <div className="col-lg-6">
                     <PieChart width={400} height={400}>
