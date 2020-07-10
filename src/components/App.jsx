@@ -193,6 +193,7 @@ function App(props) {
 
   function cashFlowReport() {
     setShowCashFlow(!showCashFlow);
+    if (showCashFlow) {navLabel = "Return"} else {navLabel = "Cash Flow Report"}
   }
 
   function processTransfer(transfer) {
@@ -242,7 +243,6 @@ function App(props) {
   
   return (
     <div>
-      {showCashFlow ? navLabel = "Return": navLabel = "Cash Flow Report"}
       <Header 
         navLabel={navLabel}
         onCashFlow={cashFlowReport}
