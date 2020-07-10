@@ -62,7 +62,7 @@ function sortTransactions(trans) {
       COLORS.push(newColor)
     }
   });
-  data = categories.filter(cat => (cat.name !== "Income" || cat.name !== null) || cat.value === 0);
+  data = categories.filter(cat => cat.name !== "Income" || cat.value === 0);
   console.log(data)
   //TODO: Some function somewhere to display a cash flow category summary table passing "data" to the function
 }
@@ -100,6 +100,7 @@ export default class Example extends PureComponent {
                       <h3>Category Summary</h3>
                     </div>
                     {data.map((cat, index) => {
+                      if (cat.name !== "undefined") {
                       const amount = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(parseFloat(data.value));
                       const fColor = "color:" + COLORS[index];
                       console.log(fColor);
@@ -112,7 +113,7 @@ export default class Example extends PureComponent {
                           {amount}
                         </div>
                       </div>
-                    )})}
+                    )} else {return null}})}
                 </div>
                 <div className="col-lg-6">
                     <PieChart width={400} height={400}>
