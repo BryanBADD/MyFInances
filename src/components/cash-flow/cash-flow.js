@@ -62,7 +62,8 @@ function sortTransactions(trans) {
       COLORS.push(newColor)
     }
   });
-  data = categories.filter(cat => cat.name !== "Income" || cat.value !== 0);
+  console.log(categories)
+  data = categories.filter(cat => cat.name !== "Income" || cat.value === 0);
   console.log(data)
   //TODO: Some function somewhere to display a cash flow category summary table passing "data" to the function
 }
@@ -100,8 +101,8 @@ export default class Example extends PureComponent {
                       <h3>Category Summary</h3>
                     </div>
                     {data.map((cat, index) => {
-                      if (cat.index !== data.length()) {
-                      const amount = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(parseFloat(data.value));
+                      if (cat.index < data.length() - 1) {
+                      const amount = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(parseFloat(cat.value));
                       const fColor = "color:" + COLORS[index];
                       console.log(fColor);
                       return (
