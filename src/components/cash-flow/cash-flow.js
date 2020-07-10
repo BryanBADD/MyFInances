@@ -62,7 +62,7 @@ function sortTransactions(trans) {
       COLORS.push(newColor)
     }
   });
-  data = categories.filter(cat => cat.name !== "Income" || cat.value === 0);
+  data = categories.filter(cat => (cat.name !== "Income" || cat.name !== null) || cat.value === 0);
   console.log(data)
   //TODO: Some function somewhere to display a cash flow category summary table passing "data" to the function
 }
