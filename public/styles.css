@@ -272,6 +272,11 @@ border-color: #d3d3d3;
   font-size: .90rem;
 }
 
+/* Cash Flow */
+.cash-flow {
+  padding-bottom: 20px;
+}
+
 /* Footer */
 footer {
   text-align: center;
