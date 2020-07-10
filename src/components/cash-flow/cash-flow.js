@@ -56,9 +56,11 @@ function sortTransactions(trans) {
     }
   while (i < trans.length);
   categories.forEach(c => {
-    c.value = Math.abs(c.value)
-    const newColor = random_hex_color_code();
-    COLORS.push(newColor)
+    if (c.name !== "Income") {
+      c.value = Math.abs(c.value)
+      const newColor = random_hex_color_code();
+      COLORS.push(newColor)
+    }
   });
   data = categories.filter(cat => cat.name !== "Income" || cat.value === 0);
   //TODO: Some function somewhere to display a cash flow category summary table passing "data" to the function
@@ -97,7 +99,7 @@ export default class Example extends PureComponent {
                       <h3>Category Summary</h3>
                     </div>
                     {data.map((cat, index) => {
-                      const amount = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(data.value);
+                      const amount = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(parseFloat(data.value));
                       const fColor = "color:" + COLORS[index];
                       console.log(fColor);
                       return (
