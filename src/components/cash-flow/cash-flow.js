@@ -62,12 +62,9 @@ function sortTransactions(trans) {
       COLORS.push(newColor)
     }
   });
-  console.log(categories)
   const data3 = categories.filter(cat => cat.name !== "Income");
   const data2 = data3.filter(cat => cat.value !== 0);
   data = data2.filter(cat => (cat.name) );
-  console.log(data)
-  //TODO: Some function somewhere to display a cash flow category summary table passing "data" to the function
 }
 
 
@@ -108,10 +105,10 @@ export default class Example extends PureComponent {
                       console.log(fColor);
                       return (
                       <div className="row">
-                        <div className="col-lg-6">
+                        <div className="col-lg-6" style={fColor}>
                           <p>{cat.name}</p>
                         </div>
-                        <div className="col-lg-6">
+                        <div className="col-lg-6 right-align">
                           {amount}
                         </div>
                       </div>
