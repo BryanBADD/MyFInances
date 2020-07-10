@@ -9,7 +9,7 @@ a {
 }
 
 p {
-  color: var(--color);
+  --color: #000;
 }
 
 input[type="text"] {
