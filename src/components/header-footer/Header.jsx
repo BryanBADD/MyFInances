@@ -2,6 +2,8 @@ import React from "react";
 
 function Header(props) {
 
+    console.log(props)
+
     return (
         <div className="row header" id="heading">
             <div className="col-lg-4"><h1>My Finances</h1></div>
