@@ -59,7 +59,8 @@ function sortTransactions(trans) {
     if (c.name !== "Income") {
       c.value = Math.abs(c.value)
       const newColor = random_hex_color_code();
-      COLORS.push(newColor)
+      COLORS.push(newColor);
+      categories.color = newColor;
     }
   });
   const data3 = categories.filter(cat => cat.name !== "Income");
@@ -101,11 +102,11 @@ export default class Example extends PureComponent {
                     </div>
                     {data.map((cat, index) => {
                       const amount = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(parseFloat(cat.value));
-                      const fColor = "color:" + COLORS[index];
+                      const fColor = "color:" + cat.color;
                       console.log(fColor);
                       return (
                       <div className="row">
-                        <div className="col-lg-6" style={fColor}>
+                        <div className="col-lg-6">
                           <p>{cat.name}</p>
                         </div>
                         <div className="col-lg-6 right-align">
