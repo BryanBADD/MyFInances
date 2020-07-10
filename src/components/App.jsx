@@ -21,7 +21,7 @@ let statementBalance = "";
 
 function App(props) {
 
-  let navLabel = "";
+  let navLabel = "Cash Flow Report";
   let currentAccount = [];
   let overallBalance = 0;
   let runningTotal = 0;
