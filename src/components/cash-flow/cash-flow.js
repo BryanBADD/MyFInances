@@ -97,13 +97,15 @@ export default class Example extends PureComponent {
                       <h3>Category Summary</h3>
                     </div>
                     {data.map((cat, index) => {
+                      const amount = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(data.value);
+                      const fColor = "style: " + COLORS[index]
                       return (
                       <div className="row">
                         <div className="col-lg-6">
-                          {cat.name}
+                          <p style={fColor}>{cat.name}</p>
                         </div>
                         <div className="col-lg-6">
-                          {cat.value}
+                          {amount}
                         </div>
                       </div>
                     )})}
