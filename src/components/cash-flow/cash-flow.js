@@ -64,7 +64,7 @@ function sortTransactions(trans) {
   //TODO: Some function somewhere to display a cash flow category summary table passing "data" to the function
 }
 
-
+console.log(COLORS)
 
 const RADIAN = Math.PI / 180;
 const renderCustomizedLabel = ({
@@ -98,11 +98,11 @@ export default class Example extends PureComponent {
                     </div>
                     {data.map((cat, index) => {
                       const amount = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(data.value);
-                      const fColor = "style: " + COLORS[index]
+                      // const fColor = "style: " + COLORS[index]
                       return (
                       <div className="row">
                         <div className="col-lg-6">
-                          <p style={fColor}>{cat.name}</p>
+                          {cat.name}
                         </div>
                         <div className="col-lg-6">
                           {amount}
