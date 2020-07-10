@@ -61,7 +61,7 @@ function sortTransactions(trans) {
     COLORS.push(newColor)
   });
   data = categories.filter(cat => cat.name !== "Income" || cat.value === 0);
-  console.log(data);
+  //TODO: Some function somewhere to display a cash flow category summary table passing "data" to the function
 }
 
 
@@ -93,7 +93,19 @@ export default class Example extends PureComponent {
             </div>
             <div className="row">
                 <div className="col-lg-6">
-                    <h3>Category Summary</h3>
+                    <div className="row">
+                      <h3>Category Summary</h3>
+                    </div>
+                    {data.map(cat, index) => {
+                      <div className="row">
+                        <div className="col-lg-6">
+                          {cat.name}
+                        </div>
+                        <div className="col-lg-6">
+                          {cat.value}
+                        </div>
+                      </div>
+                    }}
                 </div>
                 <div className="col-lg-6">
                     <PieChart width={400} height={400}>
@@ -118,5 +130,3 @@ export default class Example extends PureComponent {
     );
   }
 }
-
-//TODO: Return a row to the Category Summary with the category name and total for display
