@@ -63,7 +63,9 @@ function sortTransactions(trans) {
     }
   });
   console.log(categories)
-  data = categories.filter(cat => cat.name !== "Income" || cat.value === 0 || cat.name == null);
+  const data3 = categories.filter(cat => cat.name !== "Income");
+  const data2 = data3.filter(cat => cat.value === 0);
+  data = data2.filter(cat => cat.name == null);
   console.log(data)
   //TODO: Some function somewhere to display a cash flow category summary table passing "data" to the function
 }
