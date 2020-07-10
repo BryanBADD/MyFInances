@@ -103,14 +103,13 @@ export default class Example extends PureComponent {
                     {data.map((cat, index) => {
                       const amount = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(parseFloat(cat.value));
                       const fColor = {color: COLORS[index], fontSize: "1rem", fontWeight: "bold"}
-                      console.log(fColor);
                       return (
                       <div className="row">
                         <div className="col-lg-4">
                           <p style={fColor}>{cat.name}</p>
                         </div>
-                        <div className="col-lg-6 right-align">
-                          {amount}
+                        <div className="col-lg-2 right-align">
+                          <p style={fColor}>{amount}</p>
                         </div>
                       </div>
                     )} 
