@@ -192,9 +192,9 @@ function App(props) {
   }
 
   function cashFlowReport() {
-    if (showCashFlow) {navLabel = "Return"} else {navLabel = "Cash Flow Report"}
     setShowCashFlow(!showCashFlow);
-  }
+    if (showCashFlow) {navLabel = "Return"} else {navLabel = "Cash Flow Report"}
+    }
 
   function processTransfer(transfer) {
     
