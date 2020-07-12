@@ -18,10 +18,10 @@ let existingAccounts = "";
 let existingTransactions = "";
 const a = "Checking";
 let statementBalance = "";
+let navLabel = "Cash Flow Report";
 
 function App(props) {
 
-  let navLabel = "Cash Flow Report";
   let currentAccount = [];
   let overallBalance = 0;
   let runningTotal = 0;
