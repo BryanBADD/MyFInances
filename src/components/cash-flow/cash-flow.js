@@ -29,6 +29,10 @@ function getEveryTransaction() {
 
 getAllExistingTransactions();
 
+function handleFilter() {
+  console.log("Applying filters")
+}
+
 const random_hex_color_code = () => {
   let n = (Math.random() * 0xfffff * 1000000).toString(16);
   return '#' + n.slice(0, 6);
@@ -66,6 +70,8 @@ function sortTransactions(trans) {
   const data3 = categories.filter(cat => cat.name !== "Income");
   const data2 = data3.filter(cat => cat.value !== 0);
   data = data2.filter(cat => (cat.name) );
+  data.sort(function (a, b) {
+    return a.value - b.value;})
 }
 
 
@@ -93,7 +99,15 @@ export default class Example extends PureComponent {
     return (
         <div className="container transaction-container">
             <div className="row">
-                <h2>Cash Flow Report</h2>
+                <div className="col-lg-4">
+                  <h2>Cash Flow Report</h2>
+                </div>
+                <div className="col-lg-2">
+                  <p className="navigation vertical-center" onClick={handleFilter}>Filter by Date</p>
+                </div>
+                <div className="col-lg-2">
+                  <p className="navigation vertical-center" onClick={handleFilter}>Filter by Account</p>
+                </div>
             </div>
             <div className="row">
                 <div className="col-lg-6 cash-flow">
